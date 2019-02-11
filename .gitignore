@@ -5,6 +5,9 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# My files to ignore
+secrets.js
+
 # Runtime data
 pids
 *.pid
