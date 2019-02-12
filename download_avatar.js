@@ -1,11 +1,13 @@
 const request = require('request');
 const fs = require('fs');
+const token = require('./secrets.js');
 
 function getRepoContributors(repoOwner, repoName, cb) {
   let options = {
-    url: "https://api.github.com/repos/" + repoOwner + "/" + repoName + "/contributors",
+    url: `https://api.github.com/repos/${repoOwner}/${repoName}/contributors`,
     headers: {
       'User-Agent': 'request',
+      Authorization: token.GITHUB_TOKEN
     }
   };
 
@@ -26,7 +28,9 @@ function downloadImageByURL(url, filePath) {
 }
 
 
-let [owner, repo] = process.argv.slice(2); //["jquery, jquery"]
+//Main section of code
+
+let [owner, repo] = process.argv.slice(2);
 
 if (owner && repo) {
   getRepoContributors(owner, repo, function(err, result) {
@@ -35,7 +39,7 @@ if (owner && repo) {
     }
     for (let person of result) {
       let path = `./avatars/${person.login}.jpg`;
-      let personURL= person.avatar_url;
+      let personURL = person.avatar_url;
       downloadImageByURL(personURL, path);
     }
   });
