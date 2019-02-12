@@ -26,12 +26,20 @@ function downloadImageByURL(url, filePath) {
 }
 
 
-getRepoContributors("jquery", "jquery", function(err, result) {
-  console.log("Errors:", err);
-  for (let person of result) {
-    let path = `./avatars/${person.login}.jpg`;
-    let personURL= person.avatar_url;
-    downloadImageByURL(personURL, path);
-  }
-});
+let [owner, repo] = process.argv.slice(2); //["jquery, jquery"]
+
+if (owner && repo) {
+  getRepoContributors(owner, repo, function(err, result) {
+    if (err) {
+      console.log('Error : ', err);
+    }
+    for (let person of result) {
+      let path = `./avatars/${person.login}.jpg`;
+      let personURL= person.avatar_url;
+      downloadImageByURL(personURL, path);
+    }
+  });
+} else {
+  console.log("Must enter a owner and repo");
+}
 
