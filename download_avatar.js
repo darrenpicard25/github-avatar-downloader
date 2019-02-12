@@ -1,7 +1,7 @@
 //Import all files needed
 const request = require('request');
 const fs = require('fs');
-const token = require('./secrets.js');
+require('dotenv').config();
 
 
 //Function Declaration
@@ -10,7 +10,7 @@ function getRepoContributors(repoOwner, repoName, cb) {
     url: `https://api.github.com/repos/${repoOwner}/${repoName}/contributors`,
     headers: {
       'User-Agent': 'request',
-      Authorization: token.GITHUB_TOKEN
+      'Authorization': 'token '+ process.env.GitHubToken
     }
   };
 
@@ -51,4 +51,3 @@ if (owner && repo) {
 } else {
   console.log("Must enter a owner and repo");
 }
-
