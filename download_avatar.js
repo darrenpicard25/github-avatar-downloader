@@ -1,7 +1,10 @@
+//Import all files needed
 const request = require('request');
 const fs = require('fs');
 const token = require('./secrets.js');
 
+
+//Function Declaration
 function getRepoContributors(repoOwner, repoName, cb) {
   let options = {
     url: `https://api.github.com/repos/${repoOwner}/${repoName}/contributors`,
@@ -30,8 +33,10 @@ function downloadImageByURL(url, filePath) {
 
 //Main section of code
 
+//Gets user input
 let [owner, repo] = process.argv.slice(2);
 
+//Checks to insure user inputed variables if not a print statement is used
 if (owner && repo) {
   getRepoContributors(owner, repo, function(err, result) {
     if (err) {
