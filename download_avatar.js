@@ -1,4 +1,5 @@
 const request = require('request');
+const fs = require('fs');
 
 function getRepoContributors(repoOwner, repoName, cb) {
   let options = {
@@ -14,25 +15,23 @@ function getRepoContributors(repoOwner, repoName, cb) {
   });
 }
 
+function downloadImageByURL(url, filePath) {
+  request.get(url)
+       .on('error', function (err) {
+         throw err;
+       })
+       .on('response', function (response) { })
 
-
-
-
-
+       .pipe(fs.createWriteStream(filePath));
+}
 
 
 getRepoContributors("jquery", "jquery", function(err, result) {
   console.log("Errors:", err);
   for (let person of result) {
-    console.log("Person: ", person.login);
-    console.log("Avatar : ", person.avatar_url);
+    let path = `./avatars/${person.login}.jpg`;
+    let personURL= person.avatar_url;
+    downloadImageByURL(personURL, path);
   }
 });
-
-
-
-
-
-
-
 
